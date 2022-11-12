@@ -1,4 +1,3 @@
-import { ObjectID } from "bson";
 import { ObjectId } from "mongodb";
 import { Response, Request, NextFunction } from "express";
 import { collections } from "services/database";
@@ -8,7 +7,7 @@ export async function GetEvents(
   res: Response,
   _next: NextFunction
 ): Promise<void> {
-  const query = { id: ObjectID };
+  const query = { id: ObjectId };
   const result = await collections.events.find(query).toArray();
   if (result.length == 0) {
     res.status(500).json({
@@ -17,7 +16,7 @@ export async function GetEvents(
   }
   res.status(200).json({
     ok: true,
-    result,
+    events: result,
   });
 }
 
@@ -28,7 +27,7 @@ export async function GetEvent(
 ) {
   const id = req.params.id;
   try {
-    const query = { _id: new ObjectID(id) };
+    const query = { _id: new ObjectId(id) };
     const event = await collections.events.findOne(query);
     if (event) {
       res.status(200).send(event);
@@ -42,10 +41,10 @@ export async function GetEvent(
 }
 
 export async function createEvent(
+  id: ObjectId,
   req: Request,
-  res: Response,
-  _next: NextFunction
-) {
+  res: Response
+): Promise<ObjectId> {
   const { name, description, category } = req.body;
   if (!(name && description && category)) {
     res.status(400).json({
@@ -54,12 +53,15 @@ export async function createEvent(
     });
   }
 
-  // const createdBy = ;
+  const createdBy = id;
 
-  const result = collections.events.insertOne({
+  const result = await collections.events.insertOne({
     name,
     description,
     category,
-    // createdBy
+    createdBy,
   });
+  return result.insertedId;
 }
+
+export async function updateEvent(req: Request, res: Response) {}

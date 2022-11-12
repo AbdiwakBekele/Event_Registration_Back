@@ -1,6 +1,26 @@
 import { Response, NextFunction, Request } from "express";
 import { ObjectId } from "mongodb";
 import { collections } from "services/database";
+import { createEvent } from "./event";
+
+export async function GetOrganizations(
+  _req: Request,
+  res: Response,
+  _next: NextFunction
+) {
+  const query = { _id: ObjectId };
+  const organizations = await collections.organization.find(query).toArray();
+  if (organizations.length == 0) {
+    res.status(500).json({
+      ok: false,
+      message: "No organization found",
+    });
+  }
+  res.status(200).json({
+    ok: true,
+    organizations,
+  });
+}
 
 export async function GetOrganization(
   req: Request,
@@ -49,25 +69,11 @@ export async function createOrganization(
   };
 }
 
-export async function createEvent(
-  req: Request,
-  res: Response,
-  _next: NextFunction
-) {
-  const { name, description, category } = req.body;
-  if (!(name && description && category)) {
-    res.status(400).json({
-      ok: false,
-      message: "All fields are required",
-    });
-  }
-
-  // const createdBy = ;
-
-  const result = collections.events.insertOne({
-    name,
-    description,
-    category,
-    // createdBy
+export async function createNewEvent(req: Request, res: Response) {
+  const { organization_id } = req.body;
+  const result = await createEvent(organization_id, req, res);
+  res.status(200).json({
+    ok: true,
+    message: `successfully created event with id ${result}, go to /api/events/${result}`,
   });
 }

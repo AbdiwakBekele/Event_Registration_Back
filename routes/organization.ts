@@ -1,5 +1,11 @@
 import { Router } from "express";
-import { GetOrganization } from "controllers/organization";
+import {
+  createNewEvent,
+  GetOrganization,
+  GetOrganizations,
+} from "controllers/organization";
 
 export const organizationRouter = Router();
 organizationRouter.get("/:id", GetOrganization);
+organizationRouter.get("/", GetOrganizations);
+organizationRouter.post("/events", createNewEvent);
