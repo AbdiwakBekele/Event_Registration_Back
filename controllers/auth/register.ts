@@ -9,8 +9,8 @@ export async function register(
   _next: NextFunction
 ) {
   try {
-    const { name, email, age, password } = req.body;
-    if (!(name && email && password && age)) {
+    const { name, email, password } = req.body;
+    if (!(name && email && password)) {
       res.status(400).json({
         ok: false,
         message: "All Fields Are Required",
@@ -30,7 +30,6 @@ export async function register(
     const result = await collections.users.insertOne({
       name,
       email: (email as string).toLowerCase(),
-      age,
       password: hashedPassword,
     });
 

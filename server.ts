@@ -23,7 +23,7 @@ async function setupServer() {
       });
     });
 
-    app.use("/auth", authRouter);
+    app.use("/api/auth", authRouter);
     // 404 Handler
     app.use((_req, res, _next) => {
       res.status(404).json({
