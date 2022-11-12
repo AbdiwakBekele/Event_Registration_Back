@@ -1,4 +1,4 @@
-name: remote ssh command j
+name: Deploy Event Registration System
 on: 
   pull_request:
     branches:
@@ -15,4 +15,4 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
         port: 22
-        script: whoami
+        script: cd Event_Registration_Back
