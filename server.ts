@@ -3,7 +3,7 @@ import express, { Request, Response, NextFunction } from "express";
 import morgan from "morgan";
 import cors from "cors";
 import { config } from "dotenv";
-import { authRouter } from "routes/auth";
+import { authRouter, eventRouter, organizationRouter } from "routes/index";
 
 // setup the express server
 const app = express();
@@ -24,6 +24,8 @@ async function setupServer() {
     });
 
     app.use("/api/auth", authRouter);
+    app.use("/api/events", eventRouter);
+    app.use("/api/organization", organizationRouter);
     // 404 Handler
     app.use((_req, res, _next) => {
       res.status(404).json({

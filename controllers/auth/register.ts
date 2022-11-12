@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { sign } from "jsonwebtoken";
 import { hash } from "bcrypt";
 import { collections } from "services/database";
-import { createOrganization } from "controllers/organizationController";
+import { createOrganization } from "controllers/organization";
 
 export async function register(
   req: Request,
