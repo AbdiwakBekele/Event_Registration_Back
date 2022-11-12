@@ -1,0 +1,12 @@
+version: '3'
+services:
+  event_registration_api:
+    build:
+      context: ./
+    volumes:
+      - .:/src
+    ports:
+      - 8082:4000
+    restart: unless-stopped
+    environment:
+      - MONGO_HOST=survey_app_mongodb:27017
