@@ -64,4 +64,89 @@ export async function createEvent(
   return result.insertedId;
 }
 
-export async function updateEvent(req: Request, res: Response) {}
+export async function updateEvent(req: Request, res: Response) {
+  const id = req.params.id;
+  const { name, description, category } = req.body;
+  const filter = { _id: new ObjectId(id) };
+  if (name && description && category) {
+    const update = {
+      $set: {
+        name,
+        description,
+        category,
+      },
+    };
+    const result = await collections.events.updateOne(filter, update);
+    if (result) {
+      res.status(200).json({
+        ok: true,
+        message: `successfully updated event with id ${id}`,
+      });
+    } else {
+      res.status(304).json({
+        ok: false,
+        message: `failed to update event with id ${id}`,
+      });
+    }
+  } else if (name && !description && !category) {
+    const update = {
+      $set: {
+        name,
+        description,
+        category,
+      },
+    };
+    const result = await collections.events.updateOne(filter, update);
+    if (result) {
+      res.status(200).json({
+        ok: true,
+        message: `successfully updated event with id ${id}`,
+      });
+    } else {
+      res.status(304).json({
+        ok: false,
+        message: `failed to update event with id ${id}`,
+      });
+    }
+  } else if (!name && description && !category) {
+    const update = {
+      $set: {
+        name,
+        description,
+        category,
+      },
+    };
+    const result = await collections.events.updateOne(filter, update);
+    if (result) {
+      res.status(200).json({
+        ok: true,
+        message: `successfully updated event with id ${id}`,
+      });
+    } else {
+      res.status(304).json({
+        ok: false,
+        message: `failed to update event with id ${id}`,
+      });
+    }
+  } else if (!name && !description && category) {
+    const update = {
+      $set: {
+        name,
+        description,
+        category,
+      },
+    };
+    const result = await collections.events.updateOne(filter, update);
+    if (result) {
+      res.status(200).json({
+        ok: true,
+        message: `successfully updated event with id ${id}`,
+      });
+    } else {
+      res.status(304).json({
+        ok: false,
+        message: `failed to update event with id ${id}`,
+      });
+    }
+  }
+}

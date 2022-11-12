@@ -7,7 +7,7 @@ export async function GetOrganizations(
   _req: Request,
   res: Response,
   _next: NextFunction
-) {
+): Promise<void> {
   const query = { _id: ObjectId };
   const organizations = await collections.organization.find(query).toArray();
   if (organizations.length == 0) {
@@ -54,7 +54,7 @@ export async function createOrganization(
   if (organization) {
     res.status(409).json({
       ok: false,
-      message: `The organization name "${organization}" already exists`,
+      message: `The organization name ${organization_name} already exists`,
     });
   }
 
