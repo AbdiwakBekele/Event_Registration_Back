@@ -1,0 +1,14 @@
+version: '3'
+services:
+  event_registration_api:
+    build:
+      context: ./
+    volumes:
+      - .:/src
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    environment:
+      - DB_URI=${DB_URI}
+      - DB_NAME=${DB_NAME}
+      - PORT=${PORT}
