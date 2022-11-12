@@ -45,7 +45,7 @@ export async function register(
     const { createdBy } = await createOrganization(
       res,
       organization_name,
-      name
+      result.insertedId
     );
 
     res.status(200).json({

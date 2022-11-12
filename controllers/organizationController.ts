@@ -1,10 +1,11 @@
 import { Response } from "express";
+import { ObjectId } from "mongodb";
 import { collections } from "services/database";
 
 export async function createOrganization(
   res: Response,
   organization_name: string,
-  createdBy: string
+  createdBy: ObjectId
 ) {
   // check if the organization exists
   const organization = await collections.organization.findOne({
