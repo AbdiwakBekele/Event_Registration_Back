@@ -3,6 +3,7 @@ import express, { Request, Response, NextFunction } from "express";
 import morgan from "morgan";
 import cors from "cors";
 import { config } from "dotenv";
+import { authRouter } from "routes/auth";
 
 // setup the express server
 const app = express();
@@ -16,11 +17,13 @@ setupServer();
 
 async function setupServer() {
   try {
-    app.get("/", (_req: Request, res: Response, _next: NextFunction) => {
+    app.get("/api", (_req: Request, res: Response, _next: NextFunction) => {
       res.status(200).json({
         message: "You are on the home endpoint",
       });
     });
+
+    app.use("/auth", authRouter);
     // 404 Handler
     app.use((_req, res, _next) => {
       res.status(404).json({
