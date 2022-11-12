@@ -3,7 +3,11 @@ import { collections } from "services/database";
 import { compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
 
-export async function login(req: Request, res: Response, _next: NextFunction) {
+export async function login(
+  req: Request,
+  res: Response,
+  _next: NextFunction
+): Promise<void> {
   try {
     const { email, password } = req.body;
     if (!(email && password)) {

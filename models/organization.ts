@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 
 export interface Organizaton {
-  name: string;
+  organization_name: string;
   createdBy: string;
   id?: ObjectId;
 }
