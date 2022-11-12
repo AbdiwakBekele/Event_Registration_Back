@@ -9,4 +9,6 @@ services:
       - 3000:3000
     restart: unless-stopped
     environment:
-      - MONGO_HOST=survey_app_mongodb:27017
+      - DB_URI=${DB_URI}
+      - DB_NAME=${DB_NAME}
+      - PORT=${PORT}
