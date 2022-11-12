@@ -17,23 +17,5 @@ export async function connectToDB() {
   await client.connect();
   const db: mongoDB.Db = client.db(process.env.DB_NAME);
 
-  // const foodsCollection: mongoDB.Collection = db.collection(
-  //   process.env.FOODS_COLLECTION_NAME
-  // );
-
-  // collections.foods = foodsCollection;
-
-  // const usersCollection: mongoDB.Collection = db.collection(
-  //   process.env.USERS_COLLECTION_NAME
-  // );
-
-  // collections.users = usersCollection;
-
-  // const sharedFoodsCollection: mongoDB.Collection = db.collection(
-  //   process.env.SHARED_FOODS_COLLECTION_NAME
-  // );
-
-  // collections.sharedFoods = sharedFoodsCollection;
-
   console.log(`Successfully connected to database: ${db.databaseName}`);
 }
