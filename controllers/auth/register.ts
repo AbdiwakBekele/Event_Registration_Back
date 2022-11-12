@@ -2,14 +2,15 @@ import { NextFunction, Request, Response } from "express";
 import { sign } from "jsonwebtoken";
 import { hash } from "bcrypt";
 import { collections } from "services/database";
+import { createOrganization } from "controllers/organizationController";
 
 export async function register(
   req: Request,
   res: Response,
   _next: NextFunction
-) {
+): Promise<void> {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, organization_name } = req.body;
     if (!(name && email && password)) {
       res.status(400).json({
         ok: false,
@@ -41,9 +42,17 @@ export async function register(
       _id: result.insertedId,
     });
 
+    const { createdBy } = await createOrganization(
+      res,
+      organization_name,
+      name
+    );
+
     res.status(200).json({
       ...usersCollection,
       token,
+      organization_name,
+      createdBy,
     });
   } catch (error) {
     console.log(error);
