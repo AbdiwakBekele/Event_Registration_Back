@@ -15,4 +15,4 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
         port: 22
-        script: cd Event_Registration_Back/
+        script: cd Event_Registration_Back/ && git pull
