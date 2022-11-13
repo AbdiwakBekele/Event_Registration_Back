@@ -21,6 +21,7 @@ export async function register(
         ok: true,
         message: "User already exists, login instead",
         token,
+        user_id,
       });
     }
     const hashedPassword = await hash(password, 10);

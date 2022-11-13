@@ -46,6 +46,7 @@ export async function RegisterUserToEvent(
 
 export async function VerifyUser(req: Request, res: Response) {
   const { status, eventId } = req.body;
+  console.log("Event Id --------", req.body);
   const update = {
     $push: {
       registeredUsers: { status },

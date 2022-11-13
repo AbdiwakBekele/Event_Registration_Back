@@ -38,6 +38,7 @@ export async function login(
         token,
         organization_name,
         organization_id,
+        user_id: id,
       });
     } else {
       res.status(400).json({
