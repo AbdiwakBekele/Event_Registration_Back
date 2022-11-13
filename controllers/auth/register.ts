@@ -20,6 +20,7 @@ export async function register(
       res.status(200).json({
         ok: true,
         message: "User already exists, login instead",
+        token,
       });
     }
     const hashedPassword = await hash(password, 10);

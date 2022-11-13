@@ -4,5 +4,3 @@ dist/
 .env
 package-lock.json
 yarn.lock
-.idea
-.turbo/*
