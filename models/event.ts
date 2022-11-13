@@ -5,5 +5,10 @@ export default interface Event {
   description: string;
   category: string;
   createdBy: string;
+  backgroundPicture: string;
+  latitude: string;
+  longitude: string;
+  registeredUsers: Record<string, unknown>;
+  date: string;
   id?: ObjectId;
 }
