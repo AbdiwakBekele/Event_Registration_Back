@@ -9,6 +9,7 @@ import {
   organizationRouter,
   eventRegistrationRouter,
 } from "routes/index";
+import { userRouter } from "routes/users";
 
 // setup the express server
 const app = express();
@@ -29,9 +30,11 @@ async function setupServer() {
     });
 
     app.use("/api/auth", authRouter);
+    app.use("/api/users", userRouter);
     app.use("/api/events", eventRouter);
     app.use("/api/organizations", organizationRouter);
     app.use("/api/event-register", eventRegistrationRouter);
+
     // 404 Handler
     app.use((_req, res, _next) => {
       res.status(404).json({
