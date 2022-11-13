@@ -27,7 +27,7 @@ export async function GetEvent(
 ) {
   const id = req.params.id;
   try {
-    const filter = { createdBy: { _id: new ObjectId(id) } };
+    const filter = { _id: new ObjectId(id) };
     const event = await collections.events.findOne(filter);
     if (event) {
       res.status(200).send(event);
