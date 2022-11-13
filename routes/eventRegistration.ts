@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { RegisterUserToEvent } from "controllers/registeredUsers";
+import { RegisterUserToEvent } from "controllers/userRegistration";
 
 export const eventRegistrationRouter = Router();
 
