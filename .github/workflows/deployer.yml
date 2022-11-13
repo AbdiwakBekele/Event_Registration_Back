@@ -1,11 +1,11 @@
 name: Deploy Event Registration System
 on: 
-  pull_request:
+  push:
     branches:
       - main
 jobs:
   build:
-    name: Event-Registration-Deployer
+    name: Deploy-Event-Registration-Deployer
     runs-on: ubuntu-latest
     steps:
     - name: deploying to event registration server
