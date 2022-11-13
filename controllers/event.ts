@@ -150,3 +150,8 @@ export async function updateEvent(req: Request, res: Response) {
     }
   }
 }
+
+export async function DeleteAll() {
+  const result = await collections.events.deleteMany({});
+  return result.deletedCount;
+}
