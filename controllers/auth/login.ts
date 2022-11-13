@@ -18,8 +18,9 @@ export async function login(
     }
 
     const user = await collections.users.findOne({ email });
-    console.log(user);
-    console.log("User password", user.password);
+    const org_name = await collections.organization.findOne({});
+    // console.log(user);
+    // console.log("User password", user.password);
     const comparedPassword = await compare(password, user.password);
     if (user && comparedPassword) {
       const token = sign({ user_id: user._id, email }, process.env.JWT_KEY, {

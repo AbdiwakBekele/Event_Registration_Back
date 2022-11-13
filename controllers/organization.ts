@@ -71,11 +71,13 @@ export async function createOrganization(
     createdBy,
   });
   const query = { _id: result.insertedId };
+  console.log(result.insertedId);
   const events = await collections.events.findOne(query);
   return {
     organization_name,
     createdBy,
     events,
+    organization_id: result.insertedId.toString(),
   };
 }
 

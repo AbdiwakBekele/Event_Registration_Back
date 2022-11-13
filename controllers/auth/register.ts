@@ -46,7 +46,7 @@ export async function register(
       });
       return;
     } else {
-      const { createdBy, events } = await createOrganization(
+      const { createdBy, events, organization_id } = await createOrganization(
         res,
         organization_name,
         result.insertedId
@@ -55,6 +55,7 @@ export async function register(
         ...usersCollection,
         token,
         organization_name,
+        organization_id,
         createdBy,
         events,
       });
