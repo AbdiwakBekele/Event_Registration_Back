@@ -8,11 +8,11 @@ export async function RegisterUserToEvent(
   // eventId: ObjectId
 ) {
   console.log("Here--------");
-  const { id, name, age, email, phoneNumber, eventId } = req.body;
+  const { id, name, email, eventId } = req.body;
 
   const update = {
     $push: {
-      registeredUsers: { id, name, age, email, phoneNumber },
+      registeredUsers: { id, name, email },
     },
   };
 

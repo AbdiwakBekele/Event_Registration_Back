@@ -9,6 +9,7 @@ export default interface Event {
   latitude: string;
   longitude: string;
   registeredUsers: Array<Record<string, unknown>>;
+  uniqueId: number;
   date: string;
   id?: ObjectId;
 }

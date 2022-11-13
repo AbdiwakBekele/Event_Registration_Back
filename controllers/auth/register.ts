@@ -13,11 +13,14 @@ export async function register(
     const { name, email, password, organization_name } = req.body;
     const user = await collections.users.findOne({ email });
     if (user) {
-      res.status(409).json({
-        ok: false,
+      const user_id = user._id;
+      const token = sign({ user_id, email }, process.env.JWT_KEY, {
+        expiresIn: "1h",
+      });
+      res.status(200).json({
+        ok: true,
         message: "User already exists, login instead",
       });
-      return;
     }
     const hashedPassword = await hash(password, 10);
 
