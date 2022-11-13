@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   event_registration_api:
     build:
@@ -6,7 +6,7 @@ services:
     volumes:
       - .:/src
     ports:
-      - 3000:3000
+      - ${PORT}:${PORT}
     restart: unless-stopped
     environment:
       - DB_URI=${DB_URI}
