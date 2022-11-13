@@ -18,7 +18,12 @@ export async function login(
     }
 
     const user = await collections.users.findOne({ email });
-    const org_name = await collections.organization.findOne({});
+    const id = user._id;
+    const org = await collections.organization.findOne({ createdBy: id });
+    const organization_name = org.organization_name;
+    const organization_id = org._id;
+    // console.log(org.organization_name);
+    // console.log(org._id);
     // console.log(user);
     // console.log("User password", user.password);
     const comparedPassword = await compare(password, user.password);
@@ -31,6 +36,8 @@ export async function login(
         ok: true,
         message: "successfully logged in",
         token,
+        organization_name,
+        organization_id,
       });
     } else {
       res.status(400).json({
