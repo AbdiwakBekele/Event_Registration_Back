@@ -1,18 +1,19 @@
 import { Request, Response } from "express";
 import { collections } from "services/database";
+import { ObjectId } from "mongodb";
 
 export async function RegisterUserToEvent(
   req: Request,
   res: Response
   // eventId: ObjectId
 ) {
-
+  console.log("Here--------")
   const { id, name, age, email, phoneNumber, eventId } = req.body;
 
   // const filter = {_id: new ObjectId()}
   // const event = await collections.events.find({ _id: eventId }).toArray();
   const update = {
-    $set: {
+    $push: {
 
       registeredUsers: { id, name, age, email, phoneNumber },
 
@@ -24,8 +25,12 @@ export async function RegisterUserToEvent(
       message: "something went wrong?",
     });
   }
-  const result = await collections.events.updateOne({ _id: eventId }, update);
+  console.log("evId", eventId)
+  const events = await collections.events.findOne({ _id: new ObjectId(eventId) });
+  console.log("event", events)
+  const result = await collections.events.updateOne({ _id: new ObjectId(eventId) }, update);
   if (result) {
+    console.log("result-----", result)
     res.status(200).json({
       ok: true,
     });
