@@ -8,8 +8,8 @@ export async function GetOrganizations(
   res: Response,
   _next: NextFunction
 ): Promise<void> {
-  const query = { _id: ObjectId };
-  const organizations = await collections.organization.find(query).toArray();
+  // const query = { _id: ObjectId };
+  const organizations = await collections.organization.find({}).toArray();
   if (organizations.length == 0) {
     res.status(500).json({
       ok: false,
@@ -31,6 +31,7 @@ export async function GetOrganization(
   const id = req.params.id;
   try {
     const query = { _id: new ObjectId(id) };
+    // @todo(@Eyoatam): #14 fix this filter
     const organization = await collections.organization.findOne(query);
     const evtQuery = { createdBy: new ObjectId(id) };
     const events = await collections.events.find(evtQuery).toArray();
@@ -49,7 +50,7 @@ export async function GetOrganization(
   }
 }
 
-export async function create(
+export async function createOrganization(
   res: Response,
   organization_name: string,
   createdBy: ObjectId
@@ -70,11 +71,13 @@ export async function create(
     createdBy,
   });
   const query = { _id: result.insertedId };
+  console.log(result.insertedId);
   const events = await collections.events.findOne(query);
   return {
     organization_name,
     createdBy,
     events,
+    organization_id: result.insertedId.toString(),
   };
 }
 

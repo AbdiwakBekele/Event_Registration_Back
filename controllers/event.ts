@@ -7,8 +7,7 @@ export async function GetEvents(
   res: Response,
   _next: NextFunction
 ): Promise<void> {
-  const query = { id: ObjectId };
-  const result = await collections.events.find(query).toArray();
+  const result = await collections.events.find({}).toArray();
   if (result.length == 0) {
     res.status(500).json({
       message: "No events were found",
@@ -28,8 +27,8 @@ export async function GetEvent(
 ) {
   const id = req.params.id;
   try {
-    const query = { createdBy: { _id: new ObjectId(id) } };
-    const event = await collections.events.findOne(query);
+    const filter = { _id: new ObjectId(id) };
+    const event = await collections.events.findOne(filter);
     if (event) {
       res.status(200).send(event);
     }
