@@ -40,6 +40,23 @@ export async function GetEvent(
   }
 }
 
+export async function GetEventByUniqueID(req: Request, res: Response) {
+  const id = parseInt(req.params.uniqueId, 10);
+  try {
+    const filter = { uniqueId: id };
+    const event = await collections.events.findOne(filter);
+    if (event) {
+      res.status(200).send(event);
+    } else {
+    }
+  } catch (error) {
+    res.status(404).json({
+      ok: false,
+      message: `unable to find matching document with id ${id}`,
+    });
+  }
+}
+
 export async function createEvent(
   id: ObjectId,
   req: Request,
@@ -52,7 +69,7 @@ export async function createEvent(
       message: "All fields are required",
     });
   }
-
+  const uniqueId = Math.floor(Math.random() * 900) + 100;
   const createdBy = id;
 
   const result = await collections.events.insertOne({
@@ -60,6 +77,7 @@ export async function createEvent(
     description,
     category,
     createdBy,
+    uniqueId,
   });
   return result.insertedId;
 }
@@ -68,87 +86,106 @@ export async function updateEvent(req: Request, res: Response) {
   const id = req.params.id;
   const { name, description, category } = req.body;
   const filter = { _id: new ObjectId(id) };
-  if (name && description && category) {
-    const update = {
-      $set: {
-        name,
-        description,
-        category,
-      },
-    };
-    const result = await collections.events.updateOne(filter, update);
-    if (result) {
-      res.status(200).json({
-        ok: true,
-        message: `successfully updated event with id ${id}`,
-      });
-    } else {
-      res.status(304).json({
-        ok: false,
-        message: `failed to update event with id ${id}`,
-      });
-    }
-  } else if (name && !description && !category) {
-    const update = {
-      $set: {
-        name,
-        description,
-        category,
-      },
-    };
-    const result = await collections.events.updateOne(filter, update);
-    if (result) {
-      res.status(200).json({
-        ok: true,
-        message: `successfully updated event with id ${id}`,
-      });
-    } else {
-      res.status(304).json({
-        ok: false,
-        message: `failed to update event with id ${id}`,
-      });
-    }
-  } else if (!name && description && !category) {
-    const update = {
-      $set: {
-        name,
-        description,
-        category,
-      },
-    };
-    const result = await collections.events.updateOne(filter, update);
-    if (result) {
-      res.status(200).json({
-        ok: true,
-        message: `successfully updated event with id ${id}`,
-      });
-    } else {
-      res.status(304).json({
-        ok: false,
-        message: `failed to update event with id ${id}`,
-      });
-    }
-  } else if (!name && !description && category) {
-    const update = {
-      $set: {
-        name,
-        description,
-        category,
-      },
-    };
-    const result = await collections.events.updateOne(filter, update);
-    if (result) {
-      res.status(200).json({
-        ok: true,
-        message: `successfully updated event with id ${id}`,
-      });
-    } else {
-      res.status(304).json({
-        ok: false,
-        message: `failed to update event with id ${id}`,
-      });
-    }
+  const update = {
+    $set: {
+      ...name,
+      ...description,
+      ...category,
+    },
+  };
+  const result = await collections.events.updateOne(filter, update);
+  if (result) {
+    res.status(200).json({
+      ok: true,
+      message: `successfully updated event with id ${id}`,
+    });
+  } else {
+    res.status(304).json({
+      ok: false,
+      message: `failed to update event with id ${id}`,
+    });
   }
+  // if (name && description && category) {
+  //   const update = {
+  //     $set: {
+  //       name,
+  //       description,
+  //       category,
+  //     },
+  //   };
+  //   const result = await collections.events.updateOne(filter, update);
+  //   if (result) {
+  //     res.status(200).json({
+  //       ok: true,
+  //       message: `successfully updated event with id ${id}`,
+  //     });
+  //   } else {
+  //     res.status(304).json({
+  //       ok: false,
+  //       message: `failed to update event with id ${id}`,
+  //     });
+  //   }
+  // } else if (name && !description && !category) {
+  //   const update = {
+  //     $set: {
+  //       name,
+  //       description,
+  //       category,
+  //     },
+  //   };
+  //   const result = await collections.events.updateOne(filter, update);
+  //   if (result) {
+  //     res.status(200).json({
+  //       ok: true,
+  //       message: `successfully updated event with id ${id}`,
+  //     });
+  //   } else {
+  //     res.status(304).json({
+  //       ok: false,
+  //       message: `failed to update event with id ${id}`,
+  //     });
+  //   }
+  // } else if (!name && description && !category) {
+  //   const update = {
+  //     $set: {
+  //       name,
+  //       description,
+  //       category,
+  //     },
+  //   };
+  //   const result = await collections.events.updateOne(filter, update);
+  //   if (result) {
+  //     res.status(200).json({
+  //       ok: true,
+  //       message: `successfully updated event with id ${id}`,
+  //     });
+  //   } else {
+  //     res.status(304).json({
+  //       ok: false,
+  //       message: `failed to update event with id ${id}`,
+  //     });
+  //   }
+  // } else if (!name && !description && category) {
+  //   const update = {
+  //     $set: {
+  //       name,
+  //       description,
+  //       category,
+  //     },
+  //   };
+  //   const result = await collections.events.updateOne(filter, update);
+  //   if (result) {
+  //     res.status(200).json({
+  //       ok: true,
+  //       message: `successfully updated event with id ${id}`,
+  //     });
+  //   } else {
+  //     res.status(304).json({
+  //       ok: false,
+  //       message: `failed to update event with id ${id}`,
+  //     });
+  //   }
+  // }
 }
 
 export async function DeleteAll() {

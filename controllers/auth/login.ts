@@ -18,7 +18,7 @@ export async function login(
     }
 
     const user = await collections.users.findOne({ email });
-    const id = user._id!;
+    const id = user._id;
     const org = await collections.organization.findOne({ createdBy: id });
     const organization_name = org.organization_name;
     const organization_id = org._id;
