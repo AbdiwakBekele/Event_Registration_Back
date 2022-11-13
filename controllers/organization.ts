@@ -49,7 +49,7 @@ export async function GetOrganization(
   }
 }
 
-export async function createOrganization(
+export async function create(
   res: Response,
   organization_name: string,
   createdBy: ObjectId
