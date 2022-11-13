@@ -3,4 +3,4 @@ import { RegisterUserToEvent } from "controllers/registeredUsers";
 
 export const eventRegistrationRouter = Router();
 
-eventRegistrationRouter.post("/", RegisterUserToEvent);
+eventRegistrationRouter.put("/", RegisterUserToEvent);
