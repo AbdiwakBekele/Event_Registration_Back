@@ -25,6 +25,7 @@ export async function register(
         ok: false,
         message: "User already exists, login instead",
       });
+      return;
     }
     const hashedPassword = await hash(password, 10);
 
@@ -42,7 +43,7 @@ export async function register(
       _id: result.insertedId,
     });
 
-    const { createdBy } = await createOrganization(
+    const { createdBy, events } = await createOrganization(
       res,
       organization_name,
       result.insertedId
@@ -53,6 +54,7 @@ export async function register(
       token,
       organization_name,
       createdBy,
+      events,
     });
   } catch (error) {
     console.log(error);

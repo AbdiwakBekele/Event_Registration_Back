@@ -13,11 +13,12 @@ export async function GetEvents(
     res.status(500).json({
       message: "No events were found",
     });
+  } else {
+    res.status(200).json({
+      ok: true,
+      events: result,
+    });
   }
-  res.status(200).json({
-    ok: true,
-    events: result,
-  });
 }
 
 export async function GetEvent(
@@ -27,7 +28,7 @@ export async function GetEvent(
 ) {
   const id = req.params.id;
   try {
-    const query = { _id: new ObjectId(id) };
+    const query = { createdBy: { _id: new ObjectId(id) } };
     const event = await collections.events.findOne(query);
     if (event) {
       res.status(200).send(event);

@@ -19,6 +19,7 @@ export async function GetOrganizations(
   res.status(200).json({
     ok: true,
     organizations,
+    // events,
   });
 }
 
@@ -31,8 +32,14 @@ export async function GetOrganization(
   try {
     const query = { _id: new ObjectId(id) };
     const organization = await collections.organization.findOne(query);
+    const evtQuery = { createdBy: new ObjectId(id) };
+    const events = await collections.events.find(evtQuery).toArray();
+    // console.log(await collections.events.find());
     if (organization) {
-      res.status(200).send(organization);
+      res.status(200).json({
+        ...organization,
+        events,
+      });
     }
   } catch (error) {
     res.status(404).json({
@@ -58,14 +65,16 @@ export async function createOrganization(
     });
   }
 
-  await collections.organization.insertOne({
+  const result = await collections.organization.insertOne({
     organization_name,
     createdBy,
   });
-
+  const query = { _id: result.insertedId };
+  const events = await collections.events.findOne(query);
   return {
     organization_name,
     createdBy,
+    events,
   };
 }
 
