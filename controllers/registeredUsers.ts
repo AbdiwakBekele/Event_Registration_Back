@@ -6,12 +6,12 @@ export async function RegisterUserToEvent(
   res: Response
   // eventId: ObjectId
 ) {
-  const { name, age, email, phoneNumber, eventId } = req.body;
+  const { id, name, age, email, phoneNumber, eventId } = req.body;
   // const filter = {_id: new ObjectId()}
   // const event = await collections.events.find({ _id: eventId }).toArray();
   const update = {
     $set: {
-      registeredUsers: { name, age, email, phoneNumber },
+      registeredUsers: { id, name, age, email, phoneNumber },
     },
   };
   if (!eventId) {

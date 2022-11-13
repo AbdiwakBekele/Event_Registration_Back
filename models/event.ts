@@ -8,7 +8,7 @@ export default interface Event {
   backgroundPicture: string;
   latitude: string;
   longitude: string;
-  registeredUsers: Record<string, unknown>;
+  registeredUsers: Array<Record<string, unknown>>;
   date: string;
   id?: ObjectId;
 }
