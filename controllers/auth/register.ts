@@ -11,14 +11,6 @@ export async function register(
 ): Promise<void> {
   try {
     const { name, email, password, organization_name } = req.body;
-    if (!(name && email && password)) {
-      res.status(400).json({
-        ok: false,
-        message: "All Fields Are Required",
-      });
-    }
-
-    // check if user exists
     const user = await collections.users.findOne({ email });
     if (user) {
       res.status(409).json({
@@ -34,7 +26,6 @@ export async function register(
       email: (email as string).toLowerCase(),
       password: hashedPassword,
     });
-
     const token = sign({ user_id: result, email }, process.env.JWT_KEY, {
       expiresIn: "1h",
     });
@@ -43,19 +34,31 @@ export async function register(
       _id: result.insertedId,
     });
 
-    const { createdBy, events } = await createOrganization(
-      res,
-      organization_name,
-      result.insertedId
-    );
-
-    res.status(200).json({
-      ...usersCollection,
-      token,
-      organization_name,
-      createdBy,
-      events,
-    });
+    if (!(name && email && password)) {
+      res.status(400).json({
+        ok: false,
+        message: "All Fields Are Required",
+      });
+    } else if (name && email && password && !organization_name) {
+      res.status(200).json({
+        ...usersCollection,
+        token,
+      });
+      return;
+    } else {
+      const { createdBy, events } = await createOrganization(
+        res,
+        organization_name,
+        result.insertedId
+      );
+      res.status(200).json({
+        ...usersCollection,
+        token,
+        organization_name,
+        createdBy,
+        events,
+      });
+    }
   } catch (error) {
     console.log(error);
   }
