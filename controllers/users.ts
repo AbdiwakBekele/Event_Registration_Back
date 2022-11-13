@@ -41,7 +41,7 @@ export async function GetUser(
 }
 
 export async function createUser(
-  id: ObjectId,
+  //   id: ObjectId,
   req: Request,
   res: Response
 ): Promise<ObjectId> {
@@ -59,6 +59,11 @@ export async function createUser(
     password,
   });
   return result.insertedId;
+}
+
+export async function VerifyUser(req: Request, res: Response) {
+  const { status } = req.body;
+  console.log(status);
 }
 
 export async function updateUser(req: Request, res: Response) {

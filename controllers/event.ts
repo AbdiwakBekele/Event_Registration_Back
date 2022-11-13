@@ -62,7 +62,7 @@ export async function createEvent(
   req: Request,
   res: Response
 ): Promise<ObjectId> {
-  const { name, description, category } = req.body;
+  const { name, description, category, date, latitude, longitude } = req.body;
   if (!(name && description && category)) {
     res.status(400).json({
       ok: false,
@@ -78,6 +78,9 @@ export async function createEvent(
     category,
     createdBy,
     uniqueId,
+    latitude,
+    longitude,
+    date,
   });
   return result.insertedId;
 }

@@ -43,3 +43,29 @@ export async function RegisterUserToEvent(
     });
   }
 }
+
+export async function VerifyUser(req: Request, res: Response) {
+  const { status, eventId } = req.body;
+  const update = {
+    $push: {
+      registeredUsers: { status },
+    },
+  };
+  const result = await collections.events.updateOne(
+    {
+      _id: new ObjectId(eventId),
+    },
+    update
+  );
+  if (result) {
+    console.log("result-----------", result);
+    res.status(200).json({
+      ok: true,
+    });
+  } else {
+    res.status(304).json({
+      ok: false,
+      message: "something went wrong",
+    });
+  }
+}
