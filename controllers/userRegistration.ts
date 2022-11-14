@@ -7,7 +7,7 @@ export async function RegisterUserToEvent(
   res: Response
   // eventId: ObjectId
 ) {
-  console.log("Here--------");
+  // console.log("Here--------");
   const { id, name, email, eventId } = req.body;
 
   const update = {
@@ -22,11 +22,6 @@ export async function RegisterUserToEvent(
       message: "something went wrong?",
     });
   }
-  console.log("evId", eventId);
-  const events = await collections.events.findOne({
-    _id: new ObjectId(eventId),
-  });
-  console.log("event", events);
   const result = await collections.events.updateOne(
     { _id: new ObjectId(eventId) },
     update
@@ -59,7 +54,6 @@ export async function VerifyUser(req: Request, res: Response) {
     update
   );
   if (result) {
-    console.log("result-----------", result);
     res.status(200).json({
       ok: true,
     });
