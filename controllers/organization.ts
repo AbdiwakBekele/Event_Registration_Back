@@ -60,25 +60,25 @@ export async function createOrganization(
     organization_name,
   });
   if (organization) {
-    res.status(409).json({
+    res.json({
       ok: false,
       message: `The organization name ${organization_name} already exists`,
     });
+  } else {
+    const result = await collections.organization.insertOne({
+      organization_name,
+      createdBy,
+    });
+    const query = { _id: result.insertedId };
+    console.log(result.insertedId);
+    const events = await collections.events.findOne(query);
+    return {
+      organization_name,
+      createdBy,
+      events,
+      organization_id: result.insertedId.toString(),
+    };
   }
-
-  const result = await collections.organization.insertOne({
-    organization_name,
-    createdBy,
-  });
-  const query = { _id: result.insertedId };
-  console.log(result.insertedId);
-  const events = await collections.events.findOne(query);
-  return {
-    organization_name,
-    createdBy,
-    events,
-    organization_id: result.insertedId.toString(),
-  };
 }
 
 export async function createNewEvent(req: Request, res: Response) {
